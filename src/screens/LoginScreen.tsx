@@ -30,6 +30,18 @@ const LoginScreen: React.FC<Props> = ({ navigation }) => {
         value={username}
         onChangeText={setUsername}
       />
+
+      <View style={styles.horizontalSplit}></View>
+
+      <Text style={styles.title}>Password</Text>
+      <TextInput
+        style={styles.input}
+        placeholder="Enter password"
+        value={username}
+        secureTextEntry={true}
+        onChangeText={setUsername}
+      />
+
       <Button title="Login" onPress={handleLogin} />
     </View>
   );
@@ -38,6 +50,7 @@ const LoginScreen: React.FC<Props> = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: { flex: 1, justifyContent: 'center', alignItems: 'center' },
   title: { fontSize: 24, marginBottom: 20 },
+  horizontalSplit: { height: 20 },
   input: {
     borderWidth: 1,
     borderColor: '#ccc',
