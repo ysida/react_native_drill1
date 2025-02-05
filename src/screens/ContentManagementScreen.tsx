@@ -1,7 +1,8 @@
 // screens/ContentManagementScreen.tsx
 import React, { useEffect } from 'react';
 import { View, Text, Button, FlatList, StyleSheet, ActivityIndicator } from 'react-native';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
+import { useAppDispatch } from '../hooks';
 import { fetchContent, deleteContentItem } from '../slices/contentSlice';
 import { RootState } from '../store';
 import { StackNavigationProp } from '@react-navigation/stack';
@@ -14,7 +15,7 @@ type Props = {
 };
 
 const ContentManagementScreen: React.FC<Props> = ({ navigation }) => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const { data, loading, error } = useSelector((state: RootState) => state.content);
 
   useEffect(() => {
