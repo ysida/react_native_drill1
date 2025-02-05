@@ -1,5 +1,5 @@
 // screens/ContentManagementScreen.tsx
-import React, { useEffect } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { View, Text, Button, FlatList, StyleSheet, ActivityIndicator } from 'react-native';
 import { useSelector } from 'react-redux';
 import { useAppDispatch } from '../hooks';
@@ -17,8 +17,18 @@ type Props = {
 const ContentManagementScreen: React.FC<Props> = ({ navigation }) => {
   const dispatch = useAppDispatch();
   const { data, loading, error } = useSelector((state: RootState) => state.content);
+  
+  // Local state to track pull-to-refresh status
+  const [refreshing, setRefreshing] = useState(false);
+
+  // Function to handle pull-to-refresh
+  const onRefresh = useCallback(() => {
+    setRefreshing(true);
+    dispatch(fetchContent()).finally(() => setRefreshing(false));
+  }, [dispatch]);
 
   useEffect(() => {
+    // Initial fetch when the component mounts
     dispatch(fetchContent());
   }, [dispatch]);
 
@@ -39,13 +49,15 @@ const ContentManagementScreen: React.FC<Props> = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <Text style={styles.header}>Content Management</Text>
-      {loading && <ActivityIndicator size="large" />}
+      {loading && !refreshing && <ActivityIndicator size="large" />}
       {error && <Text>Error: {error}</Text>}
       {data && (
         <FlatList
           data={data}
           keyExtractor={(item) => item.id.toString()}
           renderItem={renderItem}
+          refreshing={refreshing} // Indicates whether the list is refreshing
+          onRefresh={onRefresh}   // Called when the user performs a pull-to-refresh gesture
         />
       )}
       <View style={styles.bottomButtonContainer}>
