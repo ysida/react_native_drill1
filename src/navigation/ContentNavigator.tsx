@@ -14,8 +14,18 @@ const Stack = createStackNavigator<ContentStackParamList>();
 const ContentNavigator = () => {
   return (
     <Stack.Navigator>
-      <Stack.Screen name="ContentList" component={ContentScreen} />
-      <Stack.Screen name="ContentDetails" component={ContentDetailsScreen} />
+      <Stack.Screen
+        name="ContentList"
+        component={ContentScreen}
+        options={{ title: 'Content List' }}
+      />
+
+      <Stack.Screen
+        name="ContentDetails"
+        component={ContentDetailsScreen}
+        options={{ title: 'Content Details' }}
+      />
+
     </Stack.Navigator>
   );
 };

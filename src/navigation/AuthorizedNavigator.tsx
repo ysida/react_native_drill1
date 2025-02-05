@@ -16,9 +16,25 @@ const Stack = createStackNavigator<AuthorizedStackParamList>();
 const AuthorizedNavigator = () => {
   return (
     <Stack.Navigator>
-      <Stack.Screen name="UserProfile" component={UserProfileScreen} />
-      <Stack.Screen name="ContentManagement" component={ContentManagementScreen} />
-      <Stack.Screen name="Content" component={ContentNavigator} options={{ headerShown: false }} />
+      <Stack.Screen
+        name="UserProfile"
+        component={UserProfileScreen}
+      />
+
+      <Stack.Screen
+        name="ContentManagement"
+        component={ContentManagementScreen}
+        options={{ title: 'Content Management' }}
+      />
+
+      <Stack.Screen
+        name="Content"
+        component={ContentNavigator}
+        options={{
+          headerShown: false,
+        }}
+      />
+
     </Stack.Navigator>
   );
 };
