@@ -1,12 +1,13 @@
 // screens/ContentManagementScreen.tsx
 import React, { useEffect, useState, useCallback } from 'react';
-import { View, Text, Button, FlatList, StyleSheet, ActivityIndicator } from 'react-native';
+import { View, Text, FlatList, StyleSheet, ActivityIndicator, Button } from 'react-native';
 import { useSelector } from 'react-redux';
 import { useAppDispatch } from '../hooks';
 import { fetchContent, deleteContentItem } from '../slices/contentSlice';
 import { RootState } from '../store';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { AuthorizedStackParamList } from '../navigation/AuthorizedNavigator';
+import ContentItemCard, { ContentItem } from '../components/ContentItemCard';
 
 type ContentManagementScreenNavigationProp = StackNavigationProp<AuthorizedStackParamList, 'ContentManagement'>;
 
@@ -17,7 +18,7 @@ type Props = {
 const ContentManagementScreen: React.FC<Props> = ({ navigation }) => {
   const dispatch = useAppDispatch();
   const { data, loading, error } = useSelector((state: RootState) => state.content);
-  
+
   // Local state to track pull-to-refresh status
   const [refreshing, setRefreshing] = useState(false);
 
@@ -32,34 +33,27 @@ const ContentManagementScreen: React.FC<Props> = ({ navigation }) => {
     dispatch(fetchContent());
   }, [dispatch]);
 
-  const handleDelete = (id: number) => {
+  const handleDelete = useCallback((id: number) => {
     dispatch(deleteContentItem(id));
-  };
+  }, [dispatch]);
 
-  const renderItem = ({ item }: { item: any }) => (
-    <View style={styles.card}>
-      <Text style={styles.title}>{item.title}</Text>
-      <Text numberOfLines={2}>{item.body}</Text>
-      <View style={styles.deleteButton}>
-        <Button title="Delete" onPress={() => handleDelete(item.id)} />
-      </View>
-    </View>
-  );
+  const renderItem = useCallback(({ item }: { item: ContentItem }) => (
+    <ContentItemCard item={item} onDelete={handleDelete} />
+  ), [handleDelete]);
 
   return (
     <View style={styles.container}>
       <Text style={styles.header}>Content Management</Text>
       {loading && !refreshing && <ActivityIndicator size="large" />}
-      {error && <Text>Error: {error}</Text>}
-      {data && (
-        <FlatList
-          data={data}
-          keyExtractor={(item) => item.id.toString()}
-          renderItem={renderItem}
-          refreshing={refreshing} // Indicates whether the list is refreshing
-          onRefresh={onRefresh}   // Called when the user performs a pull-to-refresh gesture
-        />
-      )}
+      {error && <Text style={styles.errorText}>Error: {error}</Text>}
+      <FlatList
+        data={data || []}
+        keyExtractor={(item) => item.id.toString()}
+        renderItem={renderItem}
+        refreshing={refreshing}
+        onRefresh={onRefresh}
+        contentContainerStyle={styles.listContent}
+      />
       <View style={styles.bottomButtonContainer}>
         <Button title="Go to Content List" onPress={() => navigation.navigate('Content')} />
       </View>
