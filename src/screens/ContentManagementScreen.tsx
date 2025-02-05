@@ -68,12 +68,28 @@ const ContentManagementScreen: React.FC<Props> = ({ navigation }) => {
 };
 
 const styles = StyleSheet.create({
-  container: { flex: 1, padding: 20 },
-  header: { fontSize: 24, textAlign: 'center', marginBottom: 20 },
-  card: { borderWidth: 1, borderColor: '#ccc', padding: 10, marginBottom: 10, borderRadius: 5 },
-  title: { fontSize: 18, fontWeight: 'bold', marginBottom: 5 },
-  bottomButtonContainer: { marginTop: 8 },
-  deleteButton: { marginTop: 16 },
+  container: {
+    flex: 1,
+    padding: 20,
+    backgroundColor: '#f9f9f9',
+  },
+  header: {
+    fontSize: 24,
+    textAlign: 'center',
+    marginBottom: 20,
+    fontWeight: 'bold',
+  },
+  listContent: {
+    paddingBottom: 20,
+  },
+  bottomButtonContainer: {
+    marginTop: 8,
+  },
+  errorText: {
+    color: 'red',
+    textAlign: 'center',
+    marginVertical: 8,
+  },
 });
 
 export default ContentManagementScreen;
