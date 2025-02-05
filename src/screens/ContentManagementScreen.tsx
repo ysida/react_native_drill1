@@ -46,7 +46,10 @@ const ContentManagementScreen: React.FC<Props> = ({ navigation }) => {
           renderItem={renderItem}
         />
       )}
-      <Button title="Go to Content List" onPress={() => navigation.navigate('Content')} />
+      <View style={styles.buttonContainer}>
+        <Button title="Go to Content List" onPress={() => navigation.navigate('Content')} />
+      </View>
+
     </View>
   );
 };
@@ -56,6 +59,7 @@ const styles = StyleSheet.create({
   header: { fontSize: 24, textAlign: 'center', marginBottom: 20 },
   card: { borderWidth: 1, borderColor: '#ccc', padding: 10, marginBottom: 10, borderRadius: 5 },
   title: { fontSize: 18, fontWeight: 'bold', marginBottom: 5 },
+  buttonContainer: { marginTop: 8, },
 });
 
 export default ContentManagementScreen;
