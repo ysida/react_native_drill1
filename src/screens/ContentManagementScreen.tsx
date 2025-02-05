@@ -30,7 +30,9 @@ const ContentManagementScreen: React.FC<Props> = ({ navigation }) => {
     <View style={styles.card}>
       <Text style={styles.title}>{item.title}</Text>
       <Text numberOfLines={2}>{item.body}</Text>
-      <Button title="Delete" onPress={() => handleDelete(item.id)} />
+      <View style={styles.deleteButton}>
+        <Button title="Delete" onPress={() => handleDelete(item.id)} />
+      </View>
     </View>
   );
 
@@ -60,6 +62,7 @@ const styles = StyleSheet.create({
   card: { borderWidth: 1, borderColor: '#ccc', padding: 10, marginBottom: 10, borderRadius: 5 },
   title: { fontSize: 18, fontWeight: 'bold', marginBottom: 5 },
   bottomButtonContainer: { marginTop: 8, },
+  deleteButton: { marginTop: 16 }
 });
 
 export default ContentManagementScreen;
