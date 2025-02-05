@@ -19,6 +19,7 @@ const AuthorizedNavigator = () => {
       <Stack.Screen
         name="UserProfile"
         component={UserProfileScreen}
+        options={{ title: 'User Profile' }}
       />
 
       <Stack.Screen
