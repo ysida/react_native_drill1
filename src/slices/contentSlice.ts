@@ -24,7 +24,7 @@ export const fetchContent = createAsyncThunk<ContentItem[], void, { rejectValue:
   'content/fetchContent',
   async (_, thunkAPI) => {
     try {
-      const response = await axios.get<ContentItem[]>('https://jsonplaceholder.typicode.com/posts');
+      const response = await axios.get<ContentItem[]>('http://jsonplaceholder.typicode.com/posts');
       return response.data;
     } catch (error: any) {
       return thunkAPI.rejectWithValue(error.message);
