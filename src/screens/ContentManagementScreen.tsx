@@ -1,6 +1,6 @@
 // screens/ContentManagementScreen.tsx
 import React, { useEffect, useState, useCallback } from 'react';
-import { View, Text, FlatList, StyleSheet, ActivityIndicator, Button } from 'react-native';
+import { View, Text, FlatList, StyleSheet, ActivityIndicator, Button, ToastAndroid, Platform, Alert } from 'react-native';
 import { useSelector } from 'react-redux';
 import { useAppDispatch } from '../hooks';
 import { fetchContent, deleteContentItem } from '../slices/contentSlice';
@@ -21,6 +21,17 @@ const ContentManagementScreen: React.FC<Props> = ({ navigation }) => {
 
   // Local state to track pull-to-refresh status
   const [refreshing, setRefreshing] = useState(false);
+
+  // Show a toast alert whenever an error occurs
+  useEffect(() => {
+    if (error) {
+      if (Platform.OS === 'android') {
+        ToastAndroid.show(error, ToastAndroid.SHORT);
+      } else {
+        Alert.alert('Error', error);
+      }
+    }
+  }, [error]);
 
   // Function to handle pull-to-refresh
   const onRefresh = useCallback(() => {
@@ -45,7 +56,11 @@ const ContentManagementScreen: React.FC<Props> = ({ navigation }) => {
     <View style={styles.container}>
       <Text style={styles.header}>Content Management</Text>
       {loading && !refreshing && <ActivityIndicator size="large" />}
-      {error && <Text style={styles.errorText}>Error: {error}</Text>}
+      {/* {loading && !refreshing && <ActivityIndicator size="large" />} */}
+
+      {/* errors now shown in alert/toast */}
+      {/* {error && <Text style={styles.errorText}>Error: {error}</Text>} */}
+
       <FlatList
         data={data || []}
         keyExtractor={(item) => item.id.toString()}
