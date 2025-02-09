@@ -11,13 +11,14 @@ type Props = {
 };
 
 const ContentDetailsScreen: React.FC<Props> = ({ route }) => {
-  const { id } = route.params;
+  const { item } = route.params;
   // In a real app, you might fetch more details using the id.
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Content Details</Text>
-      <Text>Content ID: {id}</Text>
-      {/* Render additional detailed information here */}
+      <Text>Content ID: {item.id}</Text>
+      <Text>Title: {item.title}</Text>
+      <Text>Body: {item.body}</Text>
     </View>
   );
 };

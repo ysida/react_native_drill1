@@ -3,10 +3,11 @@ import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 import ContentScreen from '../screens/ContentScreen';
 import ContentDetailsScreen from '../screens/ContentDetailsScreen';
+import { ContentItem } from '../components/ContentItemCard';
 
 export type ContentStackParamList = {
   ContentList: undefined;
-  ContentDetails: { id: number };
+  ContentDetails: { item: ContentItem };
 };
 
 const Stack = createStackNavigator<ContentStackParamList>();

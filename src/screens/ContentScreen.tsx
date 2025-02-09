@@ -7,6 +7,7 @@ import { fetchContent } from '../slices/contentSlice';
 import { RootState } from '../store';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { ContentStackParamList } from '../navigation/ContentNavigator';
+import { ContentItem } from '../components/ContentItemCard';
 
 type ContentScreenNavigationProp = StackNavigationProp<ContentStackParamList, 'ContentList'>;
 
@@ -24,8 +25,8 @@ const ContentScreen: React.FC<Props> = ({ navigation }) => {
     }
   }, [dispatch, data]);
 
-  const renderItem = ({ item }: { item: any }) => (
-    <TouchableOpacity onPress={() => navigation.navigate('ContentDetails', { id: item.id })} style={styles.card}>
+  const renderItem = ({ item }: { item: ContentItem }) => (
+    <TouchableOpacity onPress={() => navigation.navigate('ContentDetails', { item })} style={styles.card}>
       <Text style={styles.title}>{item.title}</Text>
       <Text numberOfLines={2}>{item.body}</Text>
     </TouchableOpacity>
