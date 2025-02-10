@@ -1,97 +1,73 @@
-This is a new [**React Native**](https://reactnative.dev) project, bootstrapped using [`@react-native-community/cli`](https://github.com/react-native-community/cli).
+# A Drill in React Native
 
-# Getting Started
 
-> **Note**: Make sure you have completed the [Set Up Your Environment](https://reactnative.dev/docs/set-up-your-environment) guide before proceeding.
+Below are the details and requirements for the demo app we would like you to develop.
 
-## Step 1: Start Metro
+Technology Stack Requirements:
 
-First, you will need to run **Metro**, the JavaScript build tool for React Native.
+- Typescript
+- React Navigation https://github.com/react-navigation/react-navigation
+- Redux Toolkit https://github.com/reduxjs/redux-toolkit
+- Axios https://github.com/axios/axios
+- All UI elements (cards, buttons, text fields, modals, etc) should be implemented using
+only core React Native components, no UI libraries allowed.
 
-To start the Metro dev server, run the following command from the root of your React Native project:
+## App Structure:
+1. Redux Store
+- Auth Slice
+State consists of a single field userProfile that can be either null or object.
+Has actions for login/logout.
 
-```sh
-# Using npm
-npm start
+- Content Slice
+State consists of a single field data that can be either null or [].
+Has asyncThunk for requesting data, actions for handling the pending/fulfilled
+state of that thunk, and action for deleting a single element from existing data.
 
-# OR using Yarn
-yarn start
-```
 
-## Step 2: Build and run your app
+2. Root Navigator: Stack Navigator with two isolated routes 
+- Login Navigator 
+- Authorized Navigator
 
-With Metro running, open a new terminal window/pane from the root of your React Native project, and use one of the following commands to build and run your Android or iOS app:
+If userProfile is null the app uses Login Navigator, otherwise Authorized Navigator.
 
-### Android
 
-```sh
-# Using npm
-npm run android
+3. Login Navigator (Stack):
+- Welcome Screen
+Text component with welcome message and button that will
+navigate the user to Login Screen.
 
-# OR using Yarn
-yarn android
-```
+- Login Screen
+Text fields for login/password and login button. On button press,
+the app should dispatch action and create a user profile (with any arbitrary data).
 
-### iOS
+After the user profile is created Root Navigator should automatically transition to
+Authorized Navigator without an explicit “navigate” command.
 
-For iOS, remember to install CocoaPods dependencies (this only needs to be run on first clone or after updating native deps).
+4. Authorized Navigator: Bottom Tabs Navigator with Content Navigator on the first tab,
+Content Management Screen on the second, and User Profile Screen on the third.
 
-The first time you create a new project, run the Ruby bundler to install CocoaPods itself:
+5. Content Navigator (Stack):
+- Content Screen: Hit any API of your choice (or pick from the list
+https://github.com/public-apis/public-apis) via asynThunk from Content Slice and
+display the result as a vertical list of cards. During fetching the list should display
+ActivityIndicator component. The card component should have a combination of
+an image and several properly spaced text components. Card press should
+navigate to Content Details Screen.
+- Content Details Screen: Displays detailed information about the item. Button in
+the top left corner will navigate the user back to Content Screen.
 
-```sh
-bundle install
-```
+6. Content Management Screen: vertical list with data from Content Slice. The list item
+consists of the item title and delete button. On button press display a confirmation modal
+with a warning that the item will be deleted and confirm/cancel buttons. Modal should be
+rendered as a white card in the center of the screen with a semi-transparent dark
+backdrop. On “confirm” button press the app dispatches the action and deletes the
+chosen item. On “cancel” button press or backdrop press the modal closes without
+modifying data.
 
-Then, and every time you update your native dependencies, run:
+7. User Profile Screen: single “logout” button in the center of the screen. On press,
+userProfile is set to null and Root Navigator should automatically transition to Login
+Navigator without an explicit “navigate” command.
 
-```sh
-bundle exec pod install
-```
-
-For more information, please visit [CocoaPods Getting Started guide](https://guides.cocoapods.org/using/getting-started.html).
-
-```sh
-# Using npm
-npm run ios
-
-# OR using Yarn
-yarn ios
-```
-
-If everything is set up correctly, you should see your new app running in the Android Emulator, iOS Simulator, or your connected device.
-
-This is one way to run your app — you can also build it directly from Android Studio or Xcode.
-
-## Step 3: Modify your app
-
-Now that you have successfully run the app, let's make changes!
-
-Open `App.tsx` in your text editor of choice and make some changes. When you save, your app will automatically update and reflect these changes — this is powered by [Fast Refresh](https://reactnative.dev/docs/fast-refresh).
-
-When you want to forcefully reload, for example to reset the state of your app, you can perform a full reload:
-
-- **Android**: Press the <kbd>R</kbd> key twice or select **"Reload"** from the **Dev Menu**, accessed via <kbd>Ctrl</kbd> + <kbd>M</kbd> (Windows/Linux) or <kbd>Cmd ⌘</kbd> + <kbd>M</kbd> (macOS).
-- **iOS**: Press <kbd>R</kbd> in iOS Simulator.
-
-## Congratulations! :tada:
-
-You've successfully run and modified your React Native App. :partying_face:
-
-### Now what?
-
-- If you want to add this new React Native code to an existing application, check out the [Integration guide](https://reactnative.dev/docs/integration-with-existing-apps).
-- If you're curious to learn more about React Native, check out the [docs](https://reactnative.dev/docs/getting-started).
-
-# Troubleshooting
-
-If you're having issues getting the above steps to work, see the [Troubleshooting](https://reactnative.dev/docs/troubleshooting) page.
-
-# Learn More
-
-To learn more about React Native, take a look at the following resources:
-
-- [React Native Website](https://reactnative.dev) - learn more about React Native.
-- [Getting Started](https://reactnative.dev/docs/environment-setup) - an **overview** of React Native and how setup your environment.
-- [Learn the Basics](https://reactnative.dev/docs/getting-started) - a **guided tour** of the React Native **basics**.
-- [Blog](https://reactnative.dev/blog) - read the latest official React Native **Blog** posts.
-- [`@facebook/react-native`](https://github.com/facebook/react-native) - the Open Source; GitHub **repository** for React Native.
+## UI Requirements:
+- UI should have a consistent style across the app (e.g., colors, spacing, border-radius, etc).
+- UI should respect safe area zones.
