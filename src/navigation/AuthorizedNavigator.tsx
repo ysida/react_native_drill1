@@ -1,9 +1,10 @@
 // navigation/AuthorizedNavigator.tsx
 import React from 'react';
+import { Text } from 'react-native';
 import ContentNavigator from './ContentNavigator';
+import ContentManagementScreen from '../screens/ContentManagementScreen';
 import UserProfileScreen from '../screens/UserProfileScreen';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import ContentManagementScreen from '../screens/ContentManagementScreen';
 
 export type AuthorizedTabParamList = {
   Content: undefined;
@@ -15,13 +16,29 @@ const Tab = createBottomTabNavigator<AuthorizedTabParamList>();
 
 const AuthorizedNavigator: React.FC = () => {
   return (
-    <Tab.Navigator screenOptions={{ headerShown: false, }}>
+    <Tab.Navigator
+      screenOptions={({ route }) => ({
+        headerShown: false,
+        // Use a function to set an emoji icon for each tab.
+        tabBarIcon: ({ size }) => {
+          let emoji = '';
+          if (route.name === 'Content') {
+            emoji = '📄';
+          } else if (route.name === 'ContentManagement') {
+            emoji = '🗄️';
+          } else if (route.name === 'UserProfile') {
+            emoji = '👤';
+          }
+          return <Text style={{ fontSize: size }}>{emoji}</Text>;
+        },
+        tabBarActiveTintColor: 'blue',
+        tabBarInactiveTintColor: 'gray',
+      })}
+    >
       <Tab.Screen
         name="Content"
         component={ContentNavigator}
-        options={{
-          title: 'Content',
-        }}
+        options={{ title: 'Content' }}
       />
       <Tab.Screen
         name="ContentManagement"
