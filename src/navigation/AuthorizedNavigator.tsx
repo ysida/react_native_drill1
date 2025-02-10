@@ -6,6 +6,7 @@ import ContentManagementScreen from '../screens/ContentManagementScreen';
 import UserProfileScreen from '../screens/UserProfileScreen';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { globalStyles } from '../styles/globalStyles';
 
 export type AuthorizedTabParamList = {
   Content: undefined;
@@ -17,7 +18,7 @@ const Tab = createBottomTabNavigator<AuthorizedTabParamList>();
 
 const AuthorizedNavigator: React.FC = () => {
   return (
-    <SafeAreaView style={{ flex: 1 }}>
+    <SafeAreaView style={globalStyles.safeContainer}>
       <Tab.Navigator
         screenOptions={({ route }) => ({
           headerShown: false,
