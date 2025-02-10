@@ -24,6 +24,7 @@ export const globalStyles = StyleSheet.create({
   headerBold: {
     fontSize: 24,
     textAlign: 'center',
+    marginTop: 10,
     marginBottom: 20,
     fontWeight: 'bold',
   },

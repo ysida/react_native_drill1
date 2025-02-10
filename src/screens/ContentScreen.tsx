@@ -34,7 +34,7 @@ const ContentScreen: React.FC<Props> = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-      {/* <Text style={globalStyles.header}>Content List</Text> */}
+      <Text style={globalStyles.headerBold}>Content List</Text>
       {loading && <LoadingIndicator />}
       {error && <Text>Error: {error}</Text>}
       {data && (

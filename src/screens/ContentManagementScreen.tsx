@@ -82,7 +82,7 @@ const ContentManagementScreen: React.FC<Props> = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-      {/* <Text style={globalStyles.headerBold}>Content Management</Text> */}
+      <Text style={globalStyles.headerBold}>Content Management</Text>
       {loading && !refreshing && <LoadingIndicator />}
       <FlatList
         data={data || []}
