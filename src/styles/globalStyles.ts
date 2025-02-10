@@ -52,5 +52,10 @@ export const globalStyles = StyleSheet.create({
   },
   activityIndicator: {
     height: '35%',
-  }
+  },
+  safeContainer: {
+    flex: 1,
+    backgroundColor: '#fff', // or your background color
+  },
+
 });
