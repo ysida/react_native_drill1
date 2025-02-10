@@ -1,42 +1,40 @@
 // navigation/AuthorizedNavigator.tsx
 import React from 'react';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import UserProfileScreen from '../screens/UserProfileScreen';
-import ContentManagementScreen from '../screens/ContentManagementScreen';
 import ContentNavigator from './ContentNavigator';
+import ContentManagementScreen from '../screens/ContentManagementScreen';
+import UserProfileScreen from '../screens/UserProfileScreen';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
-export type AuthorizedStackParamList = {
-  UserProfile: undefined;
-  ContentManagement: undefined;
+export type AuthorizedTabParamList = {
   Content: undefined;
+  ContentManagement: undefined;
+  UserProfile: undefined;
 };
 
-const Stack = createNativeStackNavigator<AuthorizedStackParamList>();
+const Tab = createBottomTabNavigator<AuthorizedTabParamList>();
 
-const AuthorizedNavigator = () => {
+const AuthorizedNavigator: React.FC = () => {
   return (
-    <Stack.Navigator>
-      <Stack.Screen
-        name="UserProfile"
-        component={UserProfileScreen}
-        options={{ title: 'User Profile' }}
+    <Tab.Navigator>
+      <Tab.Screen
+        name="Content"
+        component={ContentNavigator}
+        options={{
+          title: 'Content',
+          headerShown: false,
+        }}
       />
-
-      <Stack.Screen
+      <Tab.Screen
         name="ContentManagement"
         component={ContentManagementScreen}
         options={{ title: 'Content Management' }}
       />
-
-      <Stack.Screen
-        name="Content"
-        component={ContentNavigator}
-        options={{
-          headerShown: false,
-        }}
+      <Tab.Screen
+        name="UserProfile"
+        component={UserProfileScreen}
+        options={{ title: 'User Profile' }}
       />
-
-    </Stack.Navigator>
+    </Tab.Navigator>
   );
 };
 
