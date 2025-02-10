@@ -21,6 +21,12 @@ export const globalStyles = StyleSheet.create({
     textAlign: 'center',
     marginBottom: 20,
   },
+  headerBold: {
+    fontSize: 24,
+    textAlign: 'center',
+    marginBottom: 20,
+    fontWeight: 'bold',
+  },
   // You can add more shared styles here
   input: {
     width: '80%',
