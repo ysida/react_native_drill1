@@ -1,17 +1,29 @@
-// screens/ContentManagementScreen.tsx
+// src/screens/ContentManagementScreen.tsx
 import React, { useEffect, useState, useCallback } from 'react';
-import { View, Text, FlatList, StyleSheet, ActivityIndicator, Button, ToastAndroid, Platform, Alert } from 'react-native';
+import {
+  View,
+  Text,
+  FlatList,
+  StyleSheet,
+  Button,
+  ToastAndroid,
+  Platform,
+  Alert,
+  Modal,
+  TouchableWithoutFeedback,
+  TouchableOpacity,
+} from 'react-native';
 import { useSelector } from 'react-redux';
 import { useAppDispatch } from '../hooks';
 import { fetchContent, deleteContentItem } from '../slices/contentSlice';
 import { RootState } from '../store';
 import { StackNavigationProp } from '@react-navigation/stack';
-import { AuthorizedStackParamList } from '../navigation/AuthorizedNavigator';
 import ContentItemCard, { ContentItem } from '../components/ContentItemCard';
 import { globalStyles } from '../styles/globalStyles';
 import LoadingIndicator from '../components/LoadingIndicator';
+import { AuthorizedTabParamList } from '../navigation/AuthorizedNavigator';
 
-type ContentManagementScreenNavigationProp = StackNavigationProp<AuthorizedStackParamList, 'ContentManagement'>;
+type ContentManagementScreenNavigationProp = StackNavigationProp<AuthorizedTabParamList, 'ContentManagement'>;
 
 type Props = {
   navigation: ContentManagementScreenNavigationProp;
@@ -20,11 +32,10 @@ type Props = {
 const ContentManagementScreen: React.FC<Props> = ({ navigation }) => {
   const dispatch = useAppDispatch();
   const { data, loading, error } = useSelector((state: RootState) => state.content);
-
-  // Local state to track pull-to-refresh status
   const [refreshing, setRefreshing] = useState(false);
+  // State to track which item is being considered for deletion.
+  const [itemToDelete, setItemToDelete] = useState<ContentItem | null>(null);
 
-  // Show a toast alert whenever an error occurs
   useEffect(() => {
     if (error) {
       if (Platform.OS === 'android') {
@@ -35,7 +46,6 @@ const ContentManagementScreen: React.FC<Props> = ({ navigation }) => {
     }
   }, [error]);
 
-  // Function to handle pull-to-refresh
   const onRefresh = useCallback(() => {
     setRefreshing(true);
     dispatch(fetchContent()).finally(() => setRefreshing(false));
@@ -46,22 +56,34 @@ const ContentManagementScreen: React.FC<Props> = ({ navigation }) => {
     dispatch(fetchContent());
   }, [dispatch]);
 
-  const handleDelete = useCallback((id: number) => {
-    dispatch(deleteContentItem(id));
-  }, [dispatch]);
+  // Function to confirm deletion.
+  const handleConfirmDelete = useCallback(() => {
+    if (itemToDelete) {
+      dispatch(deleteContentItem(itemToDelete.id));
+      setItemToDelete(null);
+    }
+  }, [dispatch, itemToDelete]);
 
-  const renderItem = useCallback(({ item }: { item: ContentItem }) => (
-    <ContentItemCard item={item} onDelete={handleDelete} />
-  ), [handleDelete]);
+  // Function to cancel deletion.
+  const handleCancelDelete = useCallback(() => {
+    setItemToDelete(null);
+  }, []);
+
+  // Instead of directly deleting, we now trigger the modal.
+  const renderItem = useCallback(
+    ({ item }: { item: ContentItem }) => (
+      <ContentItemCard
+        item={item}
+        onDelete={() => setItemToDelete(item)}
+      />
+    ),
+    []
+  );
 
   return (
     <View style={styles.container}>
-      <Text style={globalStyles.headerBold}>Content Management</Text>
+      {/* <Text style={globalStyles.headerBold}>Content Management</Text> */}
       {loading && !refreshing && <LoadingIndicator />}
-
-      {/* errors now shown in alert/toast */}
-      {/* {error && <Text style={styles.errorText}>Error: {error}</Text>} */}
-
       <FlatList
         data={data || []}
         keyExtractor={(item) => item.id.toString()}
@@ -70,17 +92,99 @@ const ContentManagementScreen: React.FC<Props> = ({ navigation }) => {
         onRefresh={onRefresh}
         contentContainerStyle={styles.listContent}
       />
-      <View style={styles.bottomButtonContainer}>
+
+      {/* <View style={styles.bottomButtonContainer}>
         <Button title="Go to Content List" onPress={() => navigation.navigate('Content')} />
-      </View>
+      </View> */}
+
+      {/* Confirmation Modal */}
+      {itemToDelete && (
+        <Modal
+          transparent
+          animationType="fade"
+          visible={true}
+          onRequestClose={handleCancelDelete}
+        >
+          <TouchableWithoutFeedback onPress={handleCancelDelete}>
+            <View style={modalStyles.backdrop}>
+              <TouchableWithoutFeedback>
+                <View style={modalStyles.modalContent}>
+                  <Text style={modalStyles.modalTitle}>Confirm Delete</Text>
+                  <Text style={modalStyles.modalMessage}>
+                    Are you sure you want to delete this item? This action cannot be undone.
+                  </Text>
+                  <View style={modalStyles.modalButtons}>
+                    <TouchableOpacity style={modalStyles.confirmButton} onPress={handleConfirmDelete}>
+                      <Text style={modalStyles.buttonText}>Confirm</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={modalStyles.cancelButton} onPress={handleCancelDelete}>
+                      <Text style={modalStyles.buttonText}>Cancel</Text>
+                    </TouchableOpacity>
+                  </View>
+                </View>
+              </TouchableWithoutFeedback>
+            </View>
+          </TouchableWithoutFeedback>
+        </Modal>
+      )}
     </View>
   );
 };
 
+const modalStyles = StyleSheet.create({
+  backdrop: {
+    flex: 1,
+    backgroundColor: 'rgba(0,0,0,0.5)',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  modalContent: {
+    backgroundColor: '#fff',
+    borderRadius: 8,
+    padding: 20,
+    width: '80%',
+  },
+  modalTitle: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    marginBottom: 10,
+    textAlign: 'center',
+  },
+  modalMessage: {
+    fontSize: 16,
+    marginBottom: 20,
+    textAlign: 'center',
+  },
+  modalButtons: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  confirmButton: {
+    backgroundColor: 'red',
+    padding: 10,
+    borderRadius: 5,
+    flex: 1,
+    marginRight: 5,
+  },
+  cancelButton: {
+    backgroundColor: 'gray',
+    padding: 10,
+    borderRadius: 5,
+    flex: 1,
+    marginLeft: 5,
+  },
+  buttonText: {
+    color: '#fff',
+    textAlign: 'center',
+    fontWeight: 'bold',
+  },
+});
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 20,
+    paddingHorizontal: 20,
+    paddingTop: 20,
     backgroundColor: '#f9f9f9',
   },
   listContent: {
@@ -88,11 +192,6 @@ const styles = StyleSheet.create({
   },
   bottomButtonContainer: {
     marginTop: 8,
-  },
-  errorText: {
-    color: 'red',
-    textAlign: 'center',
-    marginVertical: 8,
   },
 });
 
