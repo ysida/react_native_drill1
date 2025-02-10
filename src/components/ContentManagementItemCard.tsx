@@ -1,12 +1,8 @@
 // components/ContentManagementItemCard.tsx
 import React, { memo } from 'react';
 import { View, Text, StyleSheet, Pressable, TouchableOpacity, GestureResponderEvent } from 'react-native';
+import { ContentItem } from '../slices/contentSlice';
 
-export type ContentItem = {
-  id: number;
-  title: string;
-  body: string;
-};
 
 interface ContentManagementItemCardProps {
   item: ContentItem;

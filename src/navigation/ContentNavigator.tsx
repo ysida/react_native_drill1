@@ -3,7 +3,7 @@ import React from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import ContentScreen from '../screens/ContentScreen';
 import ContentDetailsScreen from '../screens/ContentDetailsScreen';
-import { ContentItem } from '../components/ContentItemCard';
+import { ContentItem } from '../slices/contentSlice';
 
 export type ContentStackParamList = {
   ContentList: undefined;

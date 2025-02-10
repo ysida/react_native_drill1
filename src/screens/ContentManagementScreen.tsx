@@ -15,10 +15,9 @@ import {
 } from 'react-native';
 import { useSelector } from 'react-redux';
 import { useAppDispatch } from '../hooks';
-import { fetchContent, deleteContentItem } from '../slices/contentSlice';
+import { fetchContent, deleteContentItem, ContentItem } from '../slices/contentSlice';
 import { RootState } from '../store';
 import { StackNavigationProp } from '@react-navigation/stack';
-import ContentItemCard, { ContentItem } from '../components/ContentItemCard';
 import { globalStyles } from '../styles/globalStyles';
 import LoadingIndicator from '../components/LoadingIndicator';
 import { AuthorizedTabParamList } from '../navigation/AuthorizedNavigator';

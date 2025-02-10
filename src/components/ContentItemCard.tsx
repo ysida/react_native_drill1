@@ -1,12 +1,7 @@
 // components/ContentItemCard.tsx
 import React, { memo } from 'react';
 import { View, Text, StyleSheet, Pressable, TouchableOpacity, GestureResponderEvent } from 'react-native';
-
-export type ContentItem = {
-  id: number;
-  title: string;
-  body: string;
-};
+import { ContentItem } from '../slices/contentSlice';
 
 interface ContentItemCardProps {
   item: ContentItem;
@@ -22,6 +17,7 @@ const ContentItemCard: React.FC<ContentItemCardProps> = ({ item, onDelete, onPre
         <Text style={styles.title}>{item.title}</Text>
         <Text style={styles.body} numberOfLines={2}>
           {item.body}
+          {/* // TODO add image and other properties */}
         </Text>
       </View>
       {onDelete && (

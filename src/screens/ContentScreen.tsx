@@ -3,13 +3,14 @@ import React, { useEffect } from 'react';
 import { View, Text, FlatList, StyleSheet, ActivityIndicator, TouchableOpacity } from 'react-native';
 import { useSelector } from 'react-redux';
 import { useAppDispatch } from '../hooks';
-import { fetchContent } from '../slices/contentSlice';
+import { ContentItem, fetchContent } from '../slices/contentSlice';
 import { RootState } from '../store';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { ContentStackParamList } from '../navigation/ContentNavigator';
-import ContentItemCard, { ContentItem } from '../components/ContentItemCard';
 import { globalStyles } from '../styles/globalStyles';
 import LoadingIndicator from '../components/LoadingIndicator';
+import ContentItemCard from '../components/ContentItemCard';
+import ContentItemCard from '../components/ContentItemCard';
 
 type ContentScreenNavigationProp = StackNavigationProp<ContentStackParamList, 'ContentList'>;
 
