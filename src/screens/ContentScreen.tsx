@@ -9,6 +9,7 @@ import { StackNavigationProp } from '@react-navigation/stack';
 import { ContentStackParamList } from '../navigation/ContentNavigator';
 import { ContentItem } from '../components/ContentItemCard';
 import { globalStyles } from '../styles/globalStyles';
+import LoadingIndicator from '../components/LoadingIndicator';
 
 type ContentScreenNavigationProp = StackNavigationProp<ContentStackParamList, 'ContentList'>;
 
@@ -36,7 +37,7 @@ const ContentScreen: React.FC<Props> = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <Text style={globalStyles.header}>Content List</Text>
-      {loading && <ActivityIndicator size="large" style={globalStyles.activityIndicator}/>}
+      {loading && <LoadingIndicator />}
       {error && <Text>Error: {error}</Text>}
       {data && (
         <FlatList

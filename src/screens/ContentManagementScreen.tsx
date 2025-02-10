@@ -8,6 +8,8 @@ import { RootState } from '../store';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { AuthorizedStackParamList } from '../navigation/AuthorizedNavigator';
 import ContentItemCard, { ContentItem } from '../components/ContentItemCard';
+import { globalStyles } from '../styles/globalStyles';
+import LoadingIndicator from '../components/LoadingIndicator';
 
 type ContentManagementScreenNavigationProp = StackNavigationProp<AuthorizedStackParamList, 'ContentManagement'>;
 
@@ -54,9 +56,8 @@ const ContentManagementScreen: React.FC<Props> = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.header}>Content Management</Text>
-      {loading && !refreshing && <ActivityIndicator size="large" />}
-      {/* {loading && !refreshing && <ActivityIndicator size="large" />} */}
+      <Text style={globalStyles.headerBold}>Content Management</Text>
+      {loading && !refreshing && <LoadingIndicator />}
 
       {/* errors now shown in alert/toast */}
       {/* {error && <Text style={styles.errorText}>Error: {error}</Text>} */}
@@ -81,12 +82,6 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 20,
     backgroundColor: '#f9f9f9',
-  },
-  header: {
-    fontSize: 24,
-    textAlign: 'center',
-    marginBottom: 20,
-    fontWeight: 'bold',
   },
   listContent: {
     paddingBottom: 20,
