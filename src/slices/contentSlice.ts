@@ -7,6 +7,7 @@ export interface ContentItem {
   id: number;
   title: string;
   body: string;
+  image?: string | null; // New nullable image property
 }
 
 interface ContentState {
@@ -26,6 +27,15 @@ const initialState: ContentState = {
 // Define a TTL (in milliseconds) for caching (e.g., 60 seconds)
 const CACHE_TTL = 60000;
 
+// A static list of 5 dummy image URLs
+const dummyImages: string[] = [
+  'http://dummyimage.com/300x200/000/fff.png?text=Image+1',
+  'http://dummyimage.com/300x200/111/fff.png?text=Image+2',
+  'http://dummyimage.com/300x200/222/fff.png?text=Image+3',
+  'http://dummyimage.com/300x200/333/fff.png?text=Image+4',
+  'http://dummyimage.com/300x200/444/fff.png?text=Image+5',
+];
+
 export const fetchContent = createAsyncThunk<
   ContentItem[],
   void,
@@ -38,7 +48,14 @@ export const fetchContent = createAsyncThunk<
       const response = await axios.get<ContentItem[]>('http://jsonplaceholder.typicode.com/posts', {
         timeout: 5000,
       });
-      return response.data;
+
+      // Map through the data and add an image from static list
+      const dataWithImages = response.data.map((item, index) => ({
+        ...item,
+        image: dummyImages[index % dummyImages.length], // dummyImages[Math.floor(Math.random() * dummyImages.length)],
+      }));
+
+      return dataWithImages;
     } catch (error: any) {
       console.log("Error during fetchContent:", error);
       return thunkAPI.rejectWithValue(error.message);
