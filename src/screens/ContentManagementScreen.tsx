@@ -22,6 +22,7 @@ import ContentItemCard, { ContentItem } from '../components/ContentItemCard';
 import { globalStyles } from '../styles/globalStyles';
 import LoadingIndicator from '../components/LoadingIndicator';
 import { AuthorizedTabParamList } from '../navigation/AuthorizedNavigator';
+import ContentManagementItemCard from '../components/ContentManagementItemCard';
 
 type ContentManagementScreenNavigationProp = StackNavigationProp<AuthorizedTabParamList, 'ContentManagement'>;
 
@@ -72,7 +73,7 @@ const ContentManagementScreen: React.FC<Props> = ({ navigation }) => {
   // Instead of directly deleting, we now trigger the modal.
   const renderItem = useCallback(
     ({ item }: { item: ContentItem }) => (
-      <ContentItemCard
+      <ContentManagementItemCard
         item={item}
         onDelete={() => setItemToDelete(item)}
       />
