@@ -17,6 +17,7 @@ import { LoginStackParamList } from '../navigation/LoginNavigator';
 import { useAppDispatch, useAppSelector } from '../hooks';
 import { loginUser } from '../slices/authSlice';
 import { globalStyles } from '../styles/globalStyles'; // Import your global styles
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 type LoginScreenNavigationProp = StackNavigationProp<LoginStackParamList, 'Login'>;
 
@@ -62,48 +63,50 @@ const LoginScreen: React.FC<Props> = ({ navigation }) => {
   }, [userProfile]);
 
   return (
-    <KeyboardAvoidingView
-      style={globalStyles.container}  // Use the shared container style
-      behavior={Platform.select({ ios: 'padding', android: undefined })}
-    >
-      <Text style={globalStyles.title}>Login</Text>
+    <SafeAreaView style={globalStyles.safeContainer}>
+      <KeyboardAvoidingView
+        style={globalStyles.container}  // Use the shared container style
+        behavior={Platform.select({ ios: 'padding', android: undefined })}
+      >
+        <Text style={globalStyles.title}>Login</Text>
 
-      <TextInput
-        style={[globalStyles.input, styles.inputCustom, loading && styles.inputDisabled]}
-        placeholder="Email"
-        value={email}
-        onChangeText={setEmail}
-        editable={!loading}
-        autoCapitalize="none"
-        keyboardType="email-address"
-        returnKeyType="next"
-        onSubmitEditing={() => {
-          passwordInputRef.current?.focus();
-        }}
-        // Using submitBehavior as needed (if supported)
-        submitBehavior="submit"
-      />
+        <TextInput
+          style={[globalStyles.input, styles.inputCustom, loading && styles.inputDisabled]}
+          placeholder="Email"
+          value={email}
+          onChangeText={setEmail}
+          editable={!loading}
+          autoCapitalize="none"
+          keyboardType="email-address"
+          returnKeyType="next"
+          onSubmitEditing={() => {
+            passwordInputRef.current?.focus();
+          }}
+          // Using submitBehavior as needed (if supported)
+          submitBehavior="submit"
+        />
 
-      <TextInput
-        ref={passwordInputRef}
-        style={[globalStyles.input, styles.inputCustom, loading && styles.inputDisabled]}
-        placeholder="Password"
-        value={password}
-        onChangeText={setPassword}
-        secureTextEntry
-        editable={!loading}
-        returnKeyType="done"
-        onSubmitEditing={handleLogin}
-      />
+        <TextInput
+          ref={passwordInputRef}
+          style={[globalStyles.input, styles.inputCustom, loading && styles.inputDisabled]}
+          placeholder="Password"
+          value={password}
+          onChangeText={setPassword}
+          secureTextEntry
+          editable={!loading}
+          returnKeyType="done"
+          onSubmitEditing={handleLogin}
+        />
 
-      {loading ? (
-        <ActivityIndicator size="large" color="#0000ff" style={styles.loader} />
-      ) : (
-        <Button title="Login" onPress={handleLogin} />
-      )}
+        {loading ? (
+          <ActivityIndicator size="large" color="#0000ff" style={styles.loader} />
+        ) : (
+          <Button title="Login" onPress={handleLogin} />
+        )}
 
-      {error ? <Text style={styles.errorText}>{error}</Text> : null}
-    </KeyboardAvoidingView>
+        {error ? <Text style={styles.errorText}>{error}</Text> : null}
+      </KeyboardAvoidingView>
+    </SafeAreaView>
   );
 };
 
