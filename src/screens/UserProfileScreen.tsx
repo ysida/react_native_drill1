@@ -6,6 +6,7 @@ import { RootState } from '../store';
 import { logout } from '../slices/authSlice';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { AuthorizedStackParamList } from '../navigation/AuthorizedNavigator';
+import { globalStyles } from '../styles/globalStyles';
 
 type UserProfileScreenNavigationProp = StackNavigationProp<AuthorizedStackParamList, 'UserProfile'>;
 
@@ -23,16 +24,17 @@ const UserProfileScreen: React.FC<Props> = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>User Profile</Text>
-      {userProfile && <Text>Welcome, {userProfile.name}!</Text>}
+      <Text style={globalStyles.title}>User Profile</Text>
+      {userProfile && <Text style={globalStyles.subTitle}>Welcome, {userProfile.name}!</Text>}
+
       <View style={styles.buttonContainer}>
-        <Button title="Logout" onPress={handleLogout} />
+        <Button title="Go to Content" onPress={() => navigation.navigate('Content')} />
       </View>
       <View style={styles.buttonContainer}>
         <Button title="Go to Content Management" onPress={() => navigation.navigate('ContentManagement')} />
       </View>
       <View style={styles.buttonContainer}>
-        <Button title="Go to Content" onPress={() => navigation.navigate('Content')} />
+        <Button title="Logout" onPress={handleLogout} />
       </View>
     </View>
   );

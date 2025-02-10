@@ -8,6 +8,7 @@ import { RootState } from '../store';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { ContentStackParamList } from '../navigation/ContentNavigator';
 import { ContentItem } from '../components/ContentItemCard';
+import { globalStyles } from '../styles/globalStyles';
 
 type ContentScreenNavigationProp = StackNavigationProp<ContentStackParamList, 'ContentList'>;
 
@@ -34,8 +35,8 @@ const ContentScreen: React.FC<Props> = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.header}>Content List</Text>
-      {loading && <ActivityIndicator size="large" />}
+      <Text style={globalStyles.header}>Content List</Text>
+      {loading && <ActivityIndicator size="large" style={globalStyles.activityIndicator}/>}
       {error && <Text>Error: {error}</Text>}
       {data && (
         <FlatList
@@ -50,7 +51,6 @@ const ContentScreen: React.FC<Props> = ({ navigation }) => {
 
 const styles = StyleSheet.create({
   container: { flex: 1, padding: 20 },
-  header: { fontSize: 24, textAlign: 'center', marginBottom: 20 },
   card: { borderWidth: 1, borderColor: '#ccc', padding: 10, marginBottom: 10, borderRadius: 5 },
   title: { fontSize: 18, fontWeight: 'bold', marginBottom: 5 },
 });

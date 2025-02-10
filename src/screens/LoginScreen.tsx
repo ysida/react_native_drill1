@@ -1,20 +1,22 @@
-import React, { useState, useEffect } from 'react';
+// src/screens/LoginScreen.tsx
+import React, { useState, useEffect, useRef } from 'react';
 import {
   View,
   Text,
   Button,
   TextInput,
-  StyleSheet,
   ActivityIndicator,
   Platform,
   ToastAndroid,
   Alert,
   KeyboardAvoidingView,
+  StyleSheet,
 } from 'react-native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { LoginStackParamList } from '../navigation/LoginNavigator';
-import { useAppDispatch, useAppSelector } from '../hooks'; // Use your typed hooks
+import { useAppDispatch, useAppSelector } from '../hooks';
 import { loginUser } from '../slices/authSlice';
+import { globalStyles } from '../styles/globalStyles'; // Import your global styles
 
 type LoginScreenNavigationProp = StackNavigationProp<LoginStackParamList, 'Login'>;
 
@@ -23,20 +25,20 @@ type Props = {
 };
 
 const LoginScreen: React.FC<Props> = ({ navigation }) => {
-  // Separate state for email and password.
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-
   const dispatch = useAppDispatch();
   const { loading, error, userProfile } = useAppSelector((state) => state.auth);
 
-  // Handle login button press.
+  // Ref for the password input.
+  const passwordInputRef = useRef<TextInput>(null);
+
+  // Trigger login on button press or password submit.
   const handleLogin = () => {
-    // Dispatch the async login thunk.
     dispatch(loginUser({ email, password }));
   };
 
-  // Show toast alerts when there's an error or on successful login.
+  // Show error notifications.
   useEffect(() => {
     if (error) {
       if (Platform.OS === 'android') {
@@ -47,6 +49,7 @@ const LoginScreen: React.FC<Props> = ({ navigation }) => {
     }
   }, [error]);
 
+  // Notify on successful login.
   useEffect(() => {
     if (userProfile) {
       if (Platform.OS === 'android') {
@@ -54,34 +57,43 @@ const LoginScreen: React.FC<Props> = ({ navigation }) => {
       } else {
         Alert.alert('Success', 'Login successful!');
       }
-      // Optionally navigate to another screen upon successful login.
+      // Optionally navigate to another screen here.
     }
   }, [userProfile]);
 
   return (
     <KeyboardAvoidingView
-      style={styles.container}
+      style={globalStyles.container}  // Use the shared container style
       behavior={Platform.select({ ios: 'padding', android: undefined })}
     >
-      <Text style={styles.title}>Login</Text>
+      <Text style={globalStyles.title}>Login</Text>
 
       <TextInput
-        style={[styles.input, loading && styles.inputDisabled]}
+        style={[globalStyles.input, styles.inputCustom, loading && styles.inputDisabled]}
         placeholder="Email"
         value={email}
         onChangeText={setEmail}
         editable={!loading}
         autoCapitalize="none"
         keyboardType="email-address"
+        returnKeyType="next"
+        onSubmitEditing={() => {
+          passwordInputRef.current?.focus();
+        }}
+        // Using submitBehavior as needed (if supported)
+        submitBehavior="submit"
       />
 
       <TextInput
-        style={[styles.input, loading && styles.inputDisabled]}
+        ref={passwordInputRef}
+        style={[globalStyles.input, styles.inputCustom, loading && styles.inputDisabled]}
         placeholder="Password"
         value={password}
         onChangeText={setPassword}
         secureTextEntry
         editable={!loading}
+        returnKeyType="done"
+        onSubmitEditing={handleLogin}
       />
 
       {loading ? (
@@ -89,38 +101,27 @@ const LoginScreen: React.FC<Props> = ({ navigation }) => {
       ) : (
         <Button title="Login" onPress={handleLogin} />
       )}
+
+      {error ? <Text style={styles.errorText}>{error}</Text> : null}
     </KeyboardAvoidingView>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#f9f9f9',
-    justifyContent: 'center',
-    alignItems: 'center',
-    padding: 20,
-  },
-  title: {
-    fontSize: 32,
-    fontWeight: 'bold',
-    marginBottom: 30,
-    color: '#333',
-  },
-  input: {
-    width: '80%',
-    borderWidth: 1,
-    borderColor: '#ccc',
-    borderRadius: 8,
-    padding: 12,
-    marginBottom: 20,
-    backgroundColor: '#fff',
+  // Additional or component-specific styles can be defined here.
+  inputCustom: {
+    // For example, if you need to override or extend the global input style.
   },
   inputDisabled: {
     backgroundColor: '#e0e0e0',
   },
   loader: {
     marginVertical: 20,
+  },
+  errorText: {
+    color: 'red',
+    marginTop: 10,
+    fontSize: 14,
   },
 });
 
