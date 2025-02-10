@@ -27,7 +27,6 @@ export const globalStyles = StyleSheet.create({
     marginBottom: 20,
     fontWeight: 'bold',
   },
-  // You can add more shared styles here
   input: {
     width: '80%',
     borderWidth: 1,

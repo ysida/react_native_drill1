@@ -30,7 +30,6 @@ const ContentItemCard: React.FC<ContentItemCardProps> = ({ item, onDelete }) => 
         ]}
         accessibilityLabel="Delete item"
       >
-        {/* You can replace the emoji with an Image component if you have an asset */}
         <Text style={styles.deleteIcon}>🗑</Text>
       </Pressable>
     </View>
