@@ -7,8 +7,8 @@ import LoginNavigator from './LoginNavigator';
 import AuthorizedNavigator from './AuthorizedNavigator';
 
 export type RootStackParamList = {
-  Login: undefined;
-  Authorized: undefined;
+  AuthorizedNavigator: undefined;
+  LoginNavigator: undefined;
 };
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -19,9 +19,9 @@ const RootNavigator = () => {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
       {userProfile ? (
-        <Stack.Screen name="Authorized" component={AuthorizedNavigator} />
+        <Stack.Screen name="AuthorizedNavigator" component={AuthorizedNavigator} />
       ) : (
-        <Stack.Screen name="Login" component={LoginNavigator} />
+        <Stack.Screen name="LoginNavigator" component={LoginNavigator} />
       )}
     </Stack.Navigator>
   );
