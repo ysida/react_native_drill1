@@ -1,6 +1,6 @@
 // navigation/AuthorizedNavigator.tsx
 import React from 'react';
-import { createStackNavigator } from '@react-navigation/stack';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import UserProfileScreen from '../screens/UserProfileScreen';
 import ContentManagementScreen from '../screens/ContentManagementScreen';
 import ContentNavigator from './ContentNavigator';
@@ -11,7 +11,7 @@ export type AuthorizedStackParamList = {
   Content: undefined;
 };
 
-const Stack = createStackNavigator<AuthorizedStackParamList>();
+const Stack = createNativeStackNavigator<AuthorizedStackParamList>();
 
 const AuthorizedNavigator = () => {
   return (

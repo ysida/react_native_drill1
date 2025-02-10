@@ -1,6 +1,6 @@
 // navigation/ContentNavigator.tsx
 import React from 'react';
-import { createStackNavigator } from '@react-navigation/stack';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import ContentScreen from '../screens/ContentScreen';
 import ContentDetailsScreen from '../screens/ContentDetailsScreen';
 import { ContentItem } from '../components/ContentItemCard';
@@ -10,7 +10,7 @@ export type ContentStackParamList = {
   ContentDetails: { item: ContentItem };
 };
 
-const Stack = createStackNavigator<ContentStackParamList>();
+const Stack = createNativeStackNavigator<ContentStackParamList>();
 
 const ContentNavigator = () => {
   return (

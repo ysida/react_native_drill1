@@ -1,6 +1,6 @@
 // navigation/LoginNavigator.tsx
 import React from 'react';
-import { createStackNavigator } from '@react-navigation/stack';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import WelcomeScreen from '../screens/WelcomeScreen';
 import LoginScreen from '../screens/LoginScreen';
 
@@ -9,7 +9,7 @@ export type LoginStackParamList = {
   Login: undefined;
 };
 
-const Stack = createStackNavigator<LoginStackParamList>();
+const Stack = createNativeStackNavigator<LoginStackParamList>();
 
 const LoginNavigator = () => {
   return (
