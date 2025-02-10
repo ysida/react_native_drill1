@@ -14,22 +14,17 @@ const Stack = createNativeStackNavigator<ContentStackParamList>();
 
 const ContentNavigator = () => {
   return (
-    <Stack.Navigator>
+    <Stack.Navigator screenOptions={{ headerShown: false, }} >
       <Stack.Screen
         name="ContentList"
         component={ContentScreen}
-        options={{
-          title: 'Content List',
-          headerShown: true, 
-        }}
+        options={{ title: 'Content List' }}
       />
-
       <Stack.Screen
         name="ContentDetails"
         component={ContentDetailsScreen}
         options={{ title: 'Content Details' }}
       />
-
     </Stack.Navigator>
   );
 };

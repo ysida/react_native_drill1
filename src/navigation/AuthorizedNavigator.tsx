@@ -1,9 +1,9 @@
 // navigation/AuthorizedNavigator.tsx
 import React from 'react';
 import ContentNavigator from './ContentNavigator';
-import ContentManagementScreen from '../screens/ContentManagementScreen';
 import UserProfileScreen from '../screens/UserProfileScreen';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import ContentManagementScreen from '../screens/ContentManagementScreen';
 
 export type AuthorizedTabParamList = {
   Content: undefined;
@@ -15,13 +15,12 @@ const Tab = createBottomTabNavigator<AuthorizedTabParamList>();
 
 const AuthorizedNavigator: React.FC = () => {
   return (
-    <Tab.Navigator>
+    <Tab.Navigator screenOptions={{ headerShown: false, }}>
       <Tab.Screen
         name="Content"
         component={ContentNavigator}
         options={{
           title: 'Content',
-          headerShown: false,
         }}
       />
       <Tab.Screen
