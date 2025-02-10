@@ -23,7 +23,10 @@ const ContentNavigator = () => {
       <Stack.Screen
         name="ContentDetails"
         component={ContentDetailsScreen}
-        options={{ title: 'Content Details' }}
+        options={{
+          title: 'Content Details',
+          headerShown: true,
+        }}
       />
     </Stack.Navigator>
   );
