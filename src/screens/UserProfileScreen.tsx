@@ -13,7 +13,7 @@ const UserProfileScreen: React.FC = () => {
   };
 
   return (
-    <View style={globalStyles.tabContainer}>
+    <View style={{ ...globalStyles.tabContainer, ...styles.containerCenter }}>
       <TouchableOpacity style={styles.logoutButton} onPress={handleLogout}>
         <Text style={styles.logoutText}>LOGOUT</Text>
       </TouchableOpacity>
@@ -22,6 +22,12 @@ const UserProfileScreen: React.FC = () => {
 };
 
 const styles = StyleSheet.create({
+  containerCenter: {
+    flex: 1,               // Fill the entire screen
+    justifyContent: 'center', // Center content vertically
+    alignItems: 'center',     // Center content horizontally
+    backgroundColor: '#f9f9f9', // Optional: set a background color
+  },
   logoutButton: {
     flexDirection: 'row',
     backgroundColor: 'red',
