@@ -18,7 +18,10 @@ const ContentNavigator = () => {
       <Stack.Screen
         name="ContentList"
         component={ContentScreen}
-        options={{ title: 'Content List' }}
+        options={{
+          title: 'Content List',
+          headerShown: true, 
+        }}
       />
 
       <Stack.Screen
