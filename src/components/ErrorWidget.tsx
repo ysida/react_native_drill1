@@ -11,9 +11,10 @@ const ErrorWidget: React.FC<ErrorWidgetProps> = ({ error, onPress }) => {
   return (
     <View style={styles.container}>
       <Text style={styles.errorText}>Error: {error}</Text>
-      <TouchableOpacity style={styles.button} onPress={onPress}>
+      {onPress && <TouchableOpacity style={styles.button} onPress={onPress}>
         <Text style={styles.buttonText}>Retry</Text>
       </TouchableOpacity>
+      }
     </View>
   );
 };

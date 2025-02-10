@@ -9,7 +9,7 @@ import { StackNavigationProp } from '@react-navigation/stack';
 import { ContentStackParamList } from '../navigation/ContentNavigator';
 import { globalStyles } from '../styles/globalStyles';
 import LoadingIndicator from '../components/LoadingIndicator';
-import ContentItemCard from '../components/ContentItemCard';
+import ErrorWidget from '../components/ErrorWidget';
 import ContentItemCard from '../components/ContentItemCard';
 
 type ContentScreenNavigationProp = StackNavigationProp<ContentStackParamList, 'ContentList'>;
@@ -37,7 +37,7 @@ const ContentScreen: React.FC<Props> = ({ navigation }) => {
     <View style={globalStyles.tabContainer}>
       <Text style={globalStyles.headerBold}>Content List</Text>
       {loading && <LoadingIndicator />}
-      {error && <Text>Error: {error}</Text>}
+      {error && <ErrorWidget error={error} onPress={() => { dispatch(fetchContent()) }} />}
       {data && (
         <FlatList
           data={data}
