@@ -1,6 +1,6 @@
 // navigation/RootNavigator.tsx
 import React from 'react';
-import { createStackNavigator } from '@react-navigation/stack';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { useSelector } from 'react-redux';
 import { RootState } from '../store';
 import LoginNavigator from './LoginNavigator';
@@ -11,7 +11,7 @@ export type RootStackParamList = {
   Authorized: undefined;
 };
 
-const Stack = createStackNavigator<RootStackParamList>();
+const Stack = createNativeStackNavigator<RootStackParamList>();
 
 const RootNavigator = () => {
   const userProfile = useSelector((state: RootState) => state.auth.userProfile);
