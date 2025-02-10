@@ -1,14 +1,14 @@
 // screens/UserProfileScreen.tsx
 import React from 'react';
-import { View, Text, Button, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../store';
 import { logout } from '../slices/authSlice';
 import { StackNavigationProp } from '@react-navigation/stack';
-import { AuthorizedStackParamList } from '../navigation/AuthorizedNavigator';
 import { globalStyles } from '../styles/globalStyles';
+import { AuthorizedTabParamList } from '../navigation/AuthorizedNavigator';
 
-type UserProfileScreenNavigationProp = StackNavigationProp<AuthorizedStackParamList, 'UserProfile'>;
+type UserProfileScreenNavigationProp = StackNavigationProp<AuthorizedTabParamList, 'UserProfile'>;
 
 type Props = {
   navigation: UserProfileScreenNavigationProp;
@@ -24,18 +24,29 @@ const UserProfileScreen: React.FC<Props> = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-      <Text style={globalStyles.title}>User Profile</Text>
-      {userProfile && <Text style={globalStyles.subTitle}>Welcome, {userProfile.name}!</Text>}
+      <View style={styles.content}>
+        <Text style={globalStyles.title}>User Profile</Text>
+        {userProfile && <Text style={globalStyles.subTitle}>Welcome, {userProfile.name}!</Text>}
 
-      <View style={styles.buttonContainer}>
-        <Button title="Go to Content" onPress={() => navigation.navigate('Content')} />
+        <View style={styles.buttonContainer}>
+          <TouchableOpacity style={styles.navButton} onPress={() => navigation.navigate('Content')}>
+            <Text style={styles.navButtonText}>Go to Content</Text>
+          </TouchableOpacity>
+        </View>
+        <View style={styles.buttonContainer}>
+          <TouchableOpacity style={styles.navButton} onPress={() => navigation.navigate('ContentManagement')}>
+            <Text style={styles.navButtonText}>Go to Content Management</Text>
+          </TouchableOpacity>
+        </View>
       </View>
-      <View style={styles.buttonContainer}>
-        <Button title="Go to Content Management" onPress={() => navigation.navigate('ContentManagement')} />
+
+      {/* Logout button positioned at the bottom */}
+      <View style={styles.logoutContainer}>
+        <TouchableOpacity style={styles.logoutButton} onPress={handleLogout}>
+          <Text style={styles.logoutText}>LOGOUT</Text>
+        </TouchableOpacity>
       </View>
-      <View style={styles.buttonContainer}>
-        <Button title="Logout" onPress={handleLogout} />
-      </View>
+
     </View>
   );
 };
@@ -43,17 +54,45 @@ const UserProfileScreen: React.FC<Props> = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
     paddingHorizontal: 16,
+    justifyContent: 'space-between',
+    paddingBottom: 20,
   },
-  title: {
-    fontSize: 24,
-    marginBottom: 20
+  content: {
+    alignItems: 'center',
+    marginTop: 60, // Added top margin to push content down
   },
   buttonContainer: {
-    marginVertical: 8, // This adds vertical spacing between buttons
-    width: '80%',     // Adjust width as needed
+    marginVertical: 8,
+    width: '80%',
+  },
+  navButton: {
+    backgroundColor: '#4c669f',
+    paddingVertical: 12,
+    borderRadius: 8,
+    alignItems: 'center',
+  },
+  navButtonText: {
+    color: '#fff',
+    fontSize: 16,
+  },
+  logoutContainer: {
+    alignItems: 'center',
+  },
+  logoutButton: {
+    flexDirection: 'row',
+    backgroundColor: 'red',
+    paddingVertical: 12,
+    paddingHorizontal: 24,
+    borderRadius: 8,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  logoutText: {
+    color: '#fff',
+    fontSize: 16,
+    fontWeight: 'bold',
+    marginLeft: 8,
   },
 });
 
