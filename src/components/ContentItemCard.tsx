@@ -1,6 +1,6 @@
 // components/ContentItemCard.tsx
 import React, { memo } from 'react';
-import { View, Text, StyleSheet, Pressable } from 'react-native';
+import { View, Text, StyleSheet, Pressable, TouchableOpacity, GestureResponderEvent } from 'react-native';
 
 export type ContentItem = {
   id: number;
@@ -10,11 +10,13 @@ export type ContentItem = {
 
 interface ContentItemCardProps {
   item: ContentItem;
-  onDelete: (id: number) => void;
+  onDelete?: ((id: number) => void);
+  onPress?: ((event: GestureResponderEvent) => void) | undefined,
+
 }
 
-const ContentItemCard: React.FC<ContentItemCardProps> = ({ item, onDelete }) => {
-  return (
+const ContentItemCard: React.FC<ContentItemCardProps> = ({ item, onDelete, onPress }) => {
+  const cardContent = (
     <View style={styles.card}>
       <View style={styles.textContainer}>
         <Text style={styles.title}>{item.title}</Text>
@@ -22,17 +24,24 @@ const ContentItemCard: React.FC<ContentItemCardProps> = ({ item, onDelete }) => 
           {item.body}
         </Text>
       </View>
-      <Pressable
-        onPress={() => onDelete(item.id)}
-        style={({ pressed }) => [
-          styles.deleteButton,
-          pressed && styles.buttonPressed,
-        ]}
-        accessibilityLabel="Delete item"
-      >
-        <Text style={styles.deleteIcon}>🗑</Text>
-      </Pressable>
+      {onDelete && (
+        <Pressable
+          onPress={() => onDelete?.(item.id)}
+          style={({ pressed }) => [styles.deleteButton, pressed && styles.buttonPressed]}
+          accessibilityLabel="Delete item"
+        >
+          <Text style={styles.deleteIcon}>🗑</Text>
+        </Pressable>
+      )}
     </View>
+  );
+
+  return onPress ? (
+    <TouchableOpacity onPress={onPress}>
+      {cardContent}
+    </TouchableOpacity>
+  ) : (
+    cardContent
   );
 };
 
@@ -63,7 +72,7 @@ const styles = StyleSheet.create({
   deleteButton: {
     backgroundColor: '#e8e8e8',
     borderRadius: 20, // Makes the button circular
-    borderWidth: 0.1, 
+    borderWidth: 0.1,
     padding: 8,
     width: 40,
     height: 40,
