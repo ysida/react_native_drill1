@@ -37,6 +37,12 @@ export const globalStyles = StyleSheet.create({
     marginBottom: 20,
     backgroundColor: '#fff',
   },
+  tabContainer: {
+    flex: 1,
+    paddingHorizontal: 20,
+    paddingTop: 20,
+    backgroundColor: '#f9f9f9',
+  },
   container: {
     flex: 1,
     backgroundColor: '#f9f9f9',

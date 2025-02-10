@@ -81,7 +81,7 @@ const ContentManagementScreen: React.FC<Props> = ({ navigation }) => {
   );
 
   return (
-    <View style={styles.container}>
+    <View style={globalStyles.tabContainer}>
       <Text style={globalStyles.headerBold}>Content Management</Text>
       {loading && !refreshing && <LoadingIndicator />}
       <FlatList
@@ -181,12 +181,6 @@ const modalStyles = StyleSheet.create({
 });
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    paddingHorizontal: 20,
-    paddingTop: 20,
-    backgroundColor: '#f9f9f9',
-  },
   listContent: {
     paddingBottom: 20,
   },

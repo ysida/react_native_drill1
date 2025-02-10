@@ -34,7 +34,7 @@ const ContentScreen: React.FC<Props> = ({ navigation }) => {
 
 
   return (
-    <View style={styles.container}>
+    <View style={globalStyles.tabContainer}>
       <Text style={globalStyles.headerBold}>Content List</Text>
       {loading && <LoadingIndicator />}
       {error && <Text>Error: {error}</Text>}
@@ -48,11 +48,5 @@ const ContentScreen: React.FC<Props> = ({ navigation }) => {
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  container: { flex: 1, padding: 20 },
-  card: { borderWidth: 1, borderColor: '#ccc', padding: 10, marginBottom: 10, borderRadius: 5 },
-  title: { fontSize: 18, fontWeight: 'bold', marginBottom: 5 },
-});
 
 export default ContentScreen;

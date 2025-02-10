@@ -3,6 +3,7 @@ import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { useDispatch } from 'react-redux';
 import { logout } from '../slices/authSlice';
+import { globalStyles } from '../styles/globalStyles';
 
 const UserProfileScreen: React.FC = () => {
   const dispatch = useDispatch();
@@ -12,7 +13,7 @@ const UserProfileScreen: React.FC = () => {
   };
 
   return (
-    <View style={styles.container}>
+    <View style={globalStyles.tabContainer}>
       <TouchableOpacity style={styles.logoutButton} onPress={handleLogout}>
         <Text style={styles.logoutText}>LOGOUT</Text>
       </TouchableOpacity>
@@ -21,11 +22,6 @@ const UserProfileScreen: React.FC = () => {
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
   logoutButton: {
     flexDirection: 'row',
     backgroundColor: 'red',
