@@ -28,12 +28,17 @@ export const loginUser = createAsyncThunk<
     // Simulate an asynchronous authentication request with a 2-second delay.
     await new Promise((resolve) => setTimeout(resolve, 2000));
 
-    // Check credentials against hard-coded values.
-    if (email === 'user' && password === 'password123') {
-      return { id: '1', name: email };
-    } else {
-      return thunkAPI.rejectWithValue('Invalid credentials');
-    }
+    // always return a user as per directions
+    return { id: '1', name: email };
+
+    // // hard-coded credentials
+    // // Check credentials against hard-coded values.
+    // if (email === 'user' && password === 'password123') {
+    //   return { id: '1', name: email };
+    // } else {
+    //   return thunkAPI.rejectWithValue('Invalid credentials');
+    // }
+
   }
 );
 
