@@ -61,8 +61,9 @@ const styles = StyleSheet.create({
     color: '#555',
   },
   deleteButton: {
-    backgroundColor: '#e53935',
+    backgroundColor: '#e8e8e8',
     borderRadius: 20, // Makes the button circular
+    borderWidth: 0.1, 
     padding: 8,
     width: 40,
     height: 40,
@@ -73,8 +74,8 @@ const styles = StyleSheet.create({
     opacity: 0.75,
   },
   deleteIcon: {
-    fontSize: 20,
-    color: '#fff',
+    fontSize: 18,
+    color: '#ff0000',
   },
 });
 
